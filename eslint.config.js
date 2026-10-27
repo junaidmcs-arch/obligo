@@ -7,6 +7,8 @@ export default tseslint.config(
   {
     ignores: [
       'dist',
+      'cloudflare-dist',
+      '.wrangler',
       'node_modules',
       'android',
       '.android-sdk',
