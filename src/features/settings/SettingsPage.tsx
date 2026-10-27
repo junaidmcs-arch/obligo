@@ -6,6 +6,7 @@ import { errorMessage } from '@/lib/utils';
 import { Capacitor } from '@capacitor/core';
 import { version } from '../../../package.json';
 import { RELEASES_URL } from '@/services/releaseService';
+import { BackupCard } from './BackupCard';
 export function SettingsPage({ settings }: { settings: UserSettings }) {
   const [error, setError] = useState('');
   const native = Capacitor.isNativePlatform();
@@ -29,6 +30,7 @@ export function SettingsPage({ settings }: { settings: UserSettings }) {
         </div>
       </div>
       <div className="settings-stack">
+        <BackupCard />
         {native && (
           <section className="panel settings-card">
             <h2>App updates</h2>
@@ -114,7 +116,8 @@ export function SettingsPage({ settings }: { settings: UserSettings }) {
             {native
               ? 'Uninstalling the app or clearing its storage removes your records.'
               : 'Clearing browser data removes your records. Private browsing may not retain data.'}{' '}
-            Backup and restore are not available yet.
+            Save a JSON backup above before clearing storage or moving to
+            another device.
           </p>
         </section>
       </div>

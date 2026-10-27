@@ -703,6 +703,57 @@ main {
   display: grid;
   gap: 20px;
 }
+.backup-ready {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 10px;
+  background: var(--soft);
+}
+.backup-summary ul {
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.backup-import {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.backup-import label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.backup-import input {
+  max-width: 100%;
+}
+.backup-review {
+  display: grid;
+  gap: 16px;
+  font-size: 13px;
+}
+.backup-filename {
+  overflow-wrap: anywhere;
+}
+.backup-confirm {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.backup-confirm input {
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--primary);
+}
 .settings-card {
   padding: 28px;
 }

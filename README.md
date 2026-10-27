@@ -1,10 +1,10 @@
-# Obligo · 0.1.1
+# Obligo · 0.1.2
 
 **What needs my attention today?** A private, offline-first personal obligation tracker by Validacore. This is a standalone client application: no backend, accounts, analytics, push notifications, or cloud synchronization. The Android APK checks public GitHub Releases at startup for available updates; it never includes obligation data.
 
 ## Android APK distribution
 
-Signed APK packaging and startup update notices are available. See [Android release instructions](docs/ANDROID-RELEASE.md) for the build command, release asset names, signing-key backup, GitHub publishing steps, and Android/iPhone limitations. The latest APK is `artifacts/obligo-0.1.1.apk`. See [0.1.1 release notes](docs/RELEASE-0.1.1.md). Keep `.signing/` private and backed up so future releases can update existing installations.
+Signed APK packaging and startup update notices are available. See [Android release instructions](docs/ANDROID-RELEASE.md) for the build command, release asset names, signing-key backup, GitHub publishing steps, and Android/iPhone limitations. The latest APK is `artifacts/obligo-0.1.2.apk`. See [0.1.2 release notes](docs/RELEASE-0.1.2.md). Keep `.signing/` private and backed up so future releases can update existing installations.
 
 ## Run locally
 
@@ -22,7 +22,7 @@ pnpm build
 pnpm preview
 ```
 
-Open the printed localhost URL. Deployment is a static copy of `dist/` to an HTTPS host at the origin root. No server API or environment secrets are required. Keep the origin stable: IndexedDB and service-worker caches are origin-specific. This sprint has not been published to a hosting service.
+Open the printed localhost URL. Default builds produce `dist/` for an HTTPS origin root. For the hosted `/obligo/` web app, use `pnpm run build:cloudflare`; see [Cloudflare deployment](docs/CLOUDFLARE.md). No server API or environment secrets are required. Keep the origin stable: IndexedDB and service-worker caches are origin-specific.
 
 ```sh
 pnpm test
@@ -38,6 +38,8 @@ pnpm format:check
 - Dashboard totals, active/high-priority counts, rolling seven-day count, ordered current-month attention list, and next five occurrences.
 - IndexedDB persistence, reactive updates, light/dark/system theme, empty states, keyboard-accessible native dialogs, search, and card layouts.
 - PWA manifest, 192/512px icons, maskable icon, Apple touch icon, generated service worker, precached app assets, and user-initiated update prompt.
+- Monthly completion and undo, prominent ValidaCore.tech branding, and corrected first due dates.
+- JSON Backup & Restore with file preview, confirmation, validation, atomic replacement, and Android file saving. See [backup instructions](docs/BACKUP-RESTORE.md).
 
 ## Dependencies
 
@@ -94,7 +96,7 @@ The app loads all scripts, CSS, icons, and fonts locally (system fonts). Initial
 
 On Android, use the browser's Install app / Add to Home screen command. On iPhone, use Safari → Share → Add to Home Screen. Production installation requires HTTPS; localhost is allowed for development. Browser support and install UI vary. Embedded browsers may not expose service workers or installation controls; validate using standalone Chrome and Safari.
 
-Data is browser/device-specific. Clearing site data or uninstalling with data removal can erase it; private mode may be temporary. Browser storage eviction is possible. JSON backup/restore and storage persistence controls are deferred. Theme preferences are saved in IndexedDB and system mode responds to OS changes.
+Data is browser/device-specific. Clearing site data or uninstalling with data removal can erase it; private mode may be temporary. Browser storage eviction is possible. Use Settings → Backup & restore to save a JSON file outside the app before clearing data or moving devices. Backups are manual, unencrypted snapshots; restore replaces existing data after confirmation. Theme preferences are saved in IndexedDB and system mode responds to OS changes.
 
 ## Verification
 
@@ -109,6 +111,6 @@ Before a public release, run on physical Android and iPhone devices:
 5. Check light/dark/system themes, keyboard focus, and screen-reader labels.
 6. Reconnect and deploy an updated build; confirm that the update prompt waits for user action and existing records survive.
 
-The user confirmed version 0.1.0 runs on their Android phone. Version 0.1.1 still needs physical-device upgrade testing. Calendar, historical completion browsing, and JSON backup/restore remain future work. Push notifications remain unimplemented.
+The user confirmed the Android update from 0.1.0 to 0.1.1 preserved data and the completion/date/branding changes work. Version 0.1.2 backup saving and restoring still need physical Android and iPhone picker testing. Calendar and historical completion browsing remain future work. Push notifications remain unimplemented.
 
 Implementation references: [Dexie compound indexes](https://dexie.org/docs/Compound-Index) and [Vite PWA service-worker registration](https://vite-pwa-org.netlify.app/guide/register-service-worker).
