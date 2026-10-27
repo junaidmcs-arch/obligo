@@ -1,0 +1,8 @@
+node_modules
+dist
+pnpm-lock.yaml
+android
+.android-sdk
+.gradle-local
+.signing
+artifacts

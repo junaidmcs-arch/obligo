@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.vite/
+coverage/
+.android-sdk/
+.gradle-local/
+.signing/
+artifacts/
+*.jks
+*.keystore
