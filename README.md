@@ -1,10 +1,10 @@
-# Obligo · Sprint 1
+# Obligo · 0.1.1
 
 **What needs my attention today?** A private, offline-first personal obligation tracker by Validacore. This is a standalone client application: no backend, accounts, analytics, push notifications, or cloud synchronization. The Android APK checks public GitHub Releases at startup for available updates; it never includes obligation data.
 
 ## Android APK distribution
 
-Signed APK packaging and startup update notices are available. See [Android release instructions](docs/ANDROID-RELEASE.md) for the build command, release asset names, signing-key backup, GitHub publishing steps, and Android/iPhone limitations. The first APK is `artifacts/obligo-0.1.0.apk`. Keep `.signing/` private and backed up so future releases can update existing installations.
+Signed APK packaging and startup update notices are available. See [Android release instructions](docs/ANDROID-RELEASE.md) for the build command, release asset names, signing-key backup, GitHub publishing steps, and Android/iPhone limitations. The latest APK is `artifacts/obligo-0.1.1.apk`. See [0.1.1 release notes](docs/RELEASE-0.1.1.md). Keep `.signing/` private and backed up so future releases can update existing installations.
 
 ## Run locally
 
@@ -80,11 +80,11 @@ UI components do not write directly to IndexedDB. Services validate and transact
 - Database: `ObligoDB`, schema version 1. Future migrations should add a new `version(...).stores(...).upgrade(...)` declaration without changing the existing version.
 - Category, obligation, and status IDs are UUIDs. Settings retain the requested `id: 'default'` singleton exception.
 - `isActive` remains a boolean but is deliberately **not indexed**: booleans are not valid IndexedDB keys. Active filtering runs on the local collection.
-- Monthly statuses have a unique compound index `&[obligationId+year+month]`; month is intended to be 1–12. The table/type are reserved for Sprint 2; no status writes or completion workflow ship in Sprint 1.
+- Monthly statuses have a unique compound index `&[obligationId+year+month]`; month is intended to be 1–12. Completion and undo now write one record per monthly occurrence. Completion does not archive the recurring obligation.
 - `overdue` is currently derived from the current local calendar date, never persisted. The status type retains the requested union for later migration review.
 - Due days 29–31 clamp to the month's final day, including leap years. Dates use local calendar arithmetic, not UTC or elapsed milliseconds.
-- “Due this week” means today plus the next six days, using each active obligation's next occurrence. “Upcoming” includes today and rolls passed dates to next month.
-- The attention list shows this month's recurring dates, ordered overdue, today, then upcoming. It does not infer completion, carry missed months forward, or reconstruct historical arrears. Creation date is an audit timestamp, not a recurrence start date in this sprint.
+- “Due this week” means today plus the next six days, using each active obligation's next occurrence. “Upcoming” includes today, skips completed months, and rolls passed dates to next month.
+- The attention list shows pending eligible monthly dates, ordered overdue, today, then upcoming. New obligations start this month if their due date has not passed; otherwise next month. The optional startMonth field persists that first eligible month. Legacy records derive it from createdAt without a destructive migration. Completed months are excluded; missed months are not accumulated as historical arrears.
 - Total includes archived records; all other KPIs exclude them. A category referenced by active **or archived** obligations cannot be deleted. Category checks and writes are transactional to avoid dangling references.
 - `createdAt` is preserved on edits; `updatedAt` changes on edits, archive, and restore. Stable IDs and the service boundary prepare future synchronization, but conflict resolution and tombstones must be designed before enabling sync.
 
@@ -109,6 +109,6 @@ Before a public release, run on physical Android and iPhone devices:
 5. Check light/dark/system themes, keyboard focus, and screen-reader labels.
 6. Reconnect and deploy an updated build; confirm that the update prompt waits for user action and existing records survive.
 
-Physical-device installation and airplane-mode testing have not been completed in this workspace. Sprint 2 will add the monthly status engine, completion actions, calendar, and JSON backup/restore. Notifications remain unimplemented.
+The user confirmed version 0.1.0 runs on their Android phone. Version 0.1.1 still needs physical-device upgrade testing. Calendar, historical completion browsing, and JSON backup/restore remain future work. Push notifications remain unimplemented.
 
 Implementation references: [Dexie compound indexes](https://dexie.org/docs/Compound-Index) and [Vite PWA service-worker registration](https://vite-pwa-org.netlify.app/guide/register-service-worker).

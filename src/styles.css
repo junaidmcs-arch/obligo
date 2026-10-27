@@ -1078,3 +1078,38 @@ input[type='color'] {
     transition: none !important;
   }
 }
+.powered-by {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px 20px;
+  background: var(--soft);
+  color: var(--primary);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.powered-by strong {
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.35px;
+}
+.completion-control {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+.completion-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+}
+.attention-item .completion-control {
+  padding-left: 59px;
+}
+.attention-item .completion-control .button {
+  justify-self: start;
+}

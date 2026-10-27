@@ -87,7 +87,7 @@ export function AppShell({
             <br />
             Off your mind.
           </p>
-          <span>OBLIGO BY VALIDACORE</span>
+          <span>POWERED BY ValidaCore.tech</span>
         </div>
       </aside>
       <div className="workspace">
@@ -106,6 +106,9 @@ export function AppShell({
               : 'Offline · local storage'}
           </span>
         </header>
+        <div className="powered-by">
+          <span>Powered by</span> <strong>ValidaCore.tech</strong>
+        </div>
         <main id="main" tabIndex={-1}>
           {children}
         </main>

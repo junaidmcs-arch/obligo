@@ -9,25 +9,28 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { format } from 'date-fns';
-import type { Category, Obligation } from '@/models/types';
+import type { Category, Obligation, ObligationStatus } from '@/models/types';
 import { dashboardSummary } from '@/services/dashboardService';
 import { useToday } from '@/hooks/useObligo';
+import { AttentionList } from './AttentionList';
 import { Button } from '@/components/ui/button';
 export function DashboardPage({
   obligations,
   categories,
+  statuses,
   onAdd,
   onEdit,
   onView,
 }: {
   obligations: Obligation[];
   categories: Category[];
+  statuses: ObligationStatus[];
   onAdd: () => void;
   onEdit: (o: Obligation) => void;
   onView: () => void;
 }) {
   const today = useToday();
-  const summary = dashboardSummary(obligations, today);
+  const summary = dashboardSummary(obligations, today, statuses);
   const stats = [
     {
       label: 'Total obligations',
@@ -114,52 +117,21 @@ export function DashboardPage({
           <div className="section-heading">
             <div>
               <h2>Your attention, here</h2>
-              <p className="muted">This month’s obligations, in date order.</p>
+              <p className="muted">Pending obligations, in date order.</p>
             </div>
             <span className="badge">{summary.active} active</span>
           </div>
           {summary.action.length ? (
             <>
               <p className="scope-note">
-                Date-based overview · Completion tracking is not available yet.
+                Complete a month here. Review or undo it in Obligations.
               </p>
-              <div className="attention-list">
-                {summary.action.map(({ obligation: o, days, date }) => (
-                  <button
-                    className="attention-row"
-                    key={o.id}
-                    onClick={() => onEdit(o)}
-                  >
-                    <span className="date-tile">
-                      <small>{format(date, 'MMM')}</small>
-                      <strong>{format(date, 'dd')}</strong>
-                    </span>
-                    <span className="attention-name">
-                      <strong>{o.title}</strong>
-                      <small>
-                        <span
-                          className="dot"
-                          style={{
-                            background: categories.find(
-                              (c) => c.id === o.categoryId,
-                            )?.color,
-                          }}
-                        />
-                        {categories.find((c) => c.id === o.categoryId)?.name}
-                      </small>
-                    </span>
-                    <span
-                      className={`badge ${days < 0 ? 'overdue' : days === 0 ? 'today' : ''}`}
-                    >
-                      {days < 0
-                        ? `${-days}d overdue`
-                        : days === 0
-                          ? 'Due today'
-                          : `In ${days}d`}
-                    </span>
-                  </button>
-                ))}
-              </div>
+              <AttentionList
+                items={summary.action}
+                categories={categories}
+                statuses={statuses}
+                onEdit={onEdit}
+              />
             </>
           ) : (
             <div className="empty compact">
@@ -224,7 +196,7 @@ export function DashboardPage({
           Just you and your device. Your obligations stay private, even offline.
         </span>
         <span className="byline">
-          Thoughtfully made by <strong>Validacore</strong>
+          Powered by <strong>ValidaCore.tech</strong>
         </span>
       </div>
     </>

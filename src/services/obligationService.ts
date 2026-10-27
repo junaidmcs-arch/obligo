@@ -1,5 +1,6 @@
 import { db } from '@/db/db';
 import type { ObligationInput } from '@/models/types';
+import { firstDueDate, startMonth } from './scheduleService';
 export function validateObligation(input: ObligationInput): ObligationInput {
   const title = input.title.trim();
   if (!title || title.length > 100)
@@ -34,6 +35,7 @@ export const obligationService = {
       const existing = id ? await db.obligations.get(id) : undefined;
       if (id && !existing) throw new Error('This obligation no longer exists.');
       const now = new Date();
+      const first = firstDueDate(value.dueDay, now);
       return db.obligations.put({
         ...value,
         id: existing?.id ?? crypto.randomUUID(),
@@ -41,6 +43,9 @@ export const obligationService = {
         isActive: existing?.isActive ?? true,
         createdAt: existing?.createdAt ?? now,
         updatedAt: now,
+        startMonth: existing
+          ? startMonth(existing)
+          : first.getFullYear() * 12 + first.getMonth(),
       });
     });
   },

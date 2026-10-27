@@ -4,12 +4,18 @@ import { db } from '@/db/db';
 import { defaultSettings } from '@/services/settingsService';
 export function useObligo() {
   return useLiveQuery(async () => {
-    const [categories, obligations, settings] = await Promise.all([
+    const [categories, obligations, settings, statuses] = await Promise.all([
       db.categories.orderBy('name').toArray(),
       db.obligations.toArray(),
       db.settings.get('default'),
+      db.statuses.toArray(),
     ]);
-    return { categories, obligations, settings: settings ?? defaultSettings };
+    return {
+      categories,
+      obligations,
+      statuses,
+      settings: settings ?? defaultSettings,
+    };
   });
 }
 export function useToday() {

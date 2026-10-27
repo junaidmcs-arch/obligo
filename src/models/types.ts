@@ -17,6 +17,8 @@ export interface Obligation {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
+  /** First eligible month: year * 12 + zero-based month. Optional for legacy records. */
+  startMonth?: number;
 }
 export type ObligationInput = Pick<
   Obligation,

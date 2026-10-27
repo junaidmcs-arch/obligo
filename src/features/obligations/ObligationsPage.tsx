@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Plus, Search } from 'lucide-react';
-import type { Category, Obligation } from '@/models/types';
+import type { Category, Obligation, ObligationStatus } from '@/models/types';
+import { useToday } from '@/hooks/useObligo';
+import { currentOccurrence } from '@/services/scheduleService';
 import { obligationService } from '@/services/obligationService';
 import { errorMessage } from '@/lib/utils';
 import { ObligationCard } from './ObligationCard';
@@ -8,15 +10,18 @@ import { Button } from '@/components/ui/button';
 export function ObligationsPage({
   obligations,
   categories,
+  statuses,
   onAdd,
   onEdit,
 }: {
   obligations: Obligation[];
   categories: Category[];
+  statuses: ObligationStatus[];
   onAdd: () => void;
   onEdit: (o: Obligation) => void;
 }) {
   const [filter, setFilter] = useState('active');
+  const today = useToday();
   const [search, setSearch] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -86,6 +91,8 @@ export function ObligationsPage({
           <ObligationCard
             key={o.id}
             obligation={o}
+            date={currentOccurrence(o, today)}
+            statuses={statuses}
             category={categories.find((c) => c.id === o.categoryId)}
             onEdit={() => onEdit(o)}
             onArchive={() => void archive(o)}

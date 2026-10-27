@@ -1,14 +1,20 @@
 import { Archive, CalendarDays, Pencil, RotateCcw } from 'lucide-react';
-import type { Category, Obligation } from '@/models/types';
+import type { Category, Obligation, ObligationStatus } from '@/models/types';
+import { format } from 'date-fns';
+import { CompletionControl } from './CompletionControl';
 import { Button } from '@/components/ui/button';
 export function ObligationCard({
   obligation: o,
   category,
+  date,
+  statuses,
   onEdit,
   onArchive,
 }: {
   obligation: Obligation;
   category?: Category;
+  date: Date;
+  statuses: ObligationStatus[];
   onEdit: () => void;
   onArchive: () => void;
 }) {
@@ -27,7 +33,7 @@ export function ObligationCard({
       </p>
       <div className="obligation-meta">
         <span>
-          <CalendarDays size={16} /> Day {o.dueDay} · Monthly
+          <CalendarDays size={16} /> {format(date, 'MMM d, yyyy')} · Monthly
         </span>
         {o.amount !== undefined && (
           <strong>
@@ -36,6 +42,9 @@ export function ObligationCard({
           </strong>
         )}
       </div>
+      {o.isActive && (
+        <CompletionControl obligation={o} date={date} statuses={statuses} />
+      )}
       <div className="card-footer">
         <Button variant="ghost" onClick={onEdit}>
           <Pencil size={15} /> Edit

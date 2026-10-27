@@ -103,7 +103,8 @@ export function ObligationForm({
           </label>
         </div>
         <p className="field-note">
-          Repeats monthly. In shorter months, the last day is used.
+          Repeats monthly. Past due days start next month. Shorter months use
+          the last day.
         </p>
         <div className="form-grid">
           <label>
