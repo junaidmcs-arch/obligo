@@ -1,7 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useState } from 'react';
 import { db } from '@/db/db';
-import { defaultSettings } from '@/services/settingsService';
+import { resolveSettings } from '@/services/settingsService';
 export function useObligo() {
   return useLiveQuery(async () => {
     const [categories, obligations, settings, statuses] = await Promise.all([
@@ -14,7 +14,7 @@ export function useObligo() {
       categories,
       obligations,
       statuses,
-      settings: settings ?? defaultSettings,
+      settings: resolveSettings(settings),
     };
   });
 }
@@ -30,17 +30,4 @@ export function useToday() {
     };
   }, []);
   return today;
-}
-export function useTheme(theme: 'light' | 'dark' | 'system') {
-  useEffect(() => {
-    const query = window.matchMedia('(prefers-color-scheme: dark)');
-    const update = () =>
-      document.documentElement.classList.toggle(
-        'dark',
-        theme === 'dark' || (theme === 'system' && query.matches),
-      );
-    update();
-    query.addEventListener('change', update);
-    return () => query.removeEventListener('change', update);
-  }, [theme]);
 }

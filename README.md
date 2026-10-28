@@ -1,10 +1,10 @@
-# Obligo · 0.1.2
+# Obligo · 0.1.3
 
 **What needs my attention today?** A private, offline-first personal obligation tracker by Validacore. This is a standalone client application: no backend, accounts, analytics, push notifications, or cloud synchronization. The Android APK checks public GitHub Releases at startup for available updates; it never includes obligation data.
 
 ## Android APK distribution
 
-Signed APK packaging and startup update notices are available. See [Android release instructions](docs/ANDROID-RELEASE.md) for the build command, release asset names, signing-key backup, GitHub publishing steps, and Android/iPhone limitations. The latest APK is `artifacts/obligo-0.1.2.apk`. See [0.1.2 release notes](docs/RELEASE-0.1.2.md). Keep `.signing/` private and backed up so future releases can update existing installations.
+Signed APK packaging and startup update notices are available. See [Android release instructions](docs/ANDROID-RELEASE.md) for the build command, release asset names, signing-key backup, GitHub publishing steps, and Android/iPhone limitations. The latest APK is `artifacts/obligo-0.1.3.apk`. See [0.1.3 release notes](docs/RELEASE-0.1.3.md). Keep `.signing/` private and backed up so future releases can update existing installations.
 
 ## Run locally
 
@@ -40,6 +40,7 @@ pnpm format:check
 - PWA manifest, 192/512px icons, maskable icon, Apple touch icon, generated service worker, precached app assets, and user-initiated update prompt.
 - Monthly completion and undo, prominent ValidaCore.tech branding, and corrected first due dates.
 - JSON Backup & Restore with file preview, confirmation, validation, atomic replacement, and Android file saving. See [backup instructions](docs/BACKUP-RESTORE.md).
+- Six colour palettes with independent light/dark/system mode, saved offline and included in backups. See [colour themes](docs/THEMES.md).
 
 ## Dependencies
 

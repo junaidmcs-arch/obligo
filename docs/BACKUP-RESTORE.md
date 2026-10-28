@@ -38,6 +38,8 @@ automatically, including the restored theme.
   `exportedAt` (ISO UTC), and `data`.
 - Data: `categories`, `obligations`, and `statuses` arrays; a single `settings`
   object with ID `default`.
+- From 0.1.3, settings also include `colorTheme`. Backups without that field
+  restore with the default Forest palette and retain their light/dark/system mode.
 - Dates serialize as ISO UTC strings and restore as Date objects. Monthly
   periods and first eligible months remain calendar values.
 - Limit: 10 MiB per file; at most 100,000 records per collection. Duplicate IDs,

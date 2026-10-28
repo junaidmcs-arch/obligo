@@ -1,23 +1,12 @@
-import { useState } from 'react';
-import { Laptop, Moon, ShieldCheck, Smartphone, Sun } from 'lucide-react';
+import { ShieldCheck, Smartphone } from 'lucide-react';
 import type { UserSettings } from '@/models/types';
-import { settingsService } from '@/services/settingsService';
-import { errorMessage } from '@/lib/utils';
 import { Capacitor } from '@capacitor/core';
 import { version } from '../../../package.json';
 import { RELEASES_URL } from '@/services/releaseService';
 import { BackupCard } from './BackupCard';
+import { AppearanceCard } from './AppearanceCard';
 export function SettingsPage({ settings }: { settings: UserSettings }) {
-  const [error, setError] = useState('');
   const native = Capacitor.isNativePlatform();
-  async function changeTheme(theme: UserSettings['theme']) {
-    try {
-      await settingsService.setTheme(theme);
-      setError('');
-    } catch (err) {
-      setError(errorMessage(err));
-    }
-  }
   return (
     <>
       <div className="page-title">
@@ -30,6 +19,7 @@ export function SettingsPage({ settings }: { settings: UserSettings }) {
         </div>
       </div>
       <div className="settings-stack">
+        <AppearanceCard settings={settings} />
         <BackupCard />
         {native && (
           <section className="panel settings-card">
@@ -56,34 +46,6 @@ export function SettingsPage({ settings }: { settings: UserSettings }) {
             </p>
           </section>
         )}
-        <section className="panel settings-card">
-          <h2>Appearance</h2>
-          <p className="muted">Choose the view that feels right.</p>
-          <div className="theme-options">
-            {(
-              [
-                { value: 'light', icon: Sun },
-                { value: 'dark', icon: Moon },
-                { value: 'system', icon: Laptop },
-              ] as const
-            ).map(({ value, icon: Icon }) => (
-              <button
-                key={value}
-                aria-pressed={settings.theme === value}
-                className={settings.theme === value ? 'selected' : ''}
-                onClick={() => void changeTheme(value)}
-              >
-                <Icon size={24} />
-                {value}
-              </button>
-            ))}
-          </div>
-          {error && (
-            <p className="error" role="alert">
-              {error}
-            </p>
-          )}
-        </section>
         {!native && (
           <section className="panel settings-card">
             <Smartphone className="accent" size={24} />

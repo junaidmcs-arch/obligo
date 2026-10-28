@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Obligation } from '@/models/types';
-import { useObligo, useTheme } from '@/hooks/useObligo';
+import { useObligo } from '@/hooks/useObligo';
+import { useTheme } from '@/hooks/useTheme';
 import { AppShell, type Page } from '@/components/layout/AppShell';
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
 import { CategoriesPage } from '@/features/categories/CategoriesPage';
@@ -20,7 +21,7 @@ export default function App() {
   const [page, setPage] = useState<Page>(currentPage);
   const [editing, setEditing] = useState<Obligation | 'new' | null>(null);
   const [needsCategory, setNeedsCategory] = useState(false);
-  useTheme(data?.settings.theme ?? 'system');
+  useTheme(data?.settings.theme ?? 'system', data?.settings.colorTheme);
   useEffect(() => {
     const change = () => setPage(currentPage());
     window.addEventListener('hashchange', change);

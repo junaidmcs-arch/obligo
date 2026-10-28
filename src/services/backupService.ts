@@ -5,7 +5,7 @@ import {
   type PreparedBackup,
 } from '@/models/backup';
 import { version } from '../../package.json';
-import { defaultSettings } from './settingsService';
+import { resolveSettings } from './settingsService';
 import { parseBackup } from './backupValidation';
 
 export const backupService = {
@@ -16,7 +16,7 @@ export const backupService = {
       categories: await db.categories.toArray(),
       obligations: await db.obligations.toArray(),
       statuses: await db.statuses.toArray(),
-      settings: (await db.settings.get('default')) ?? { ...defaultSettings },
+      settings: resolveSettings(await db.settings.get('default')),
     }));
     const text = JSON.stringify(
       {

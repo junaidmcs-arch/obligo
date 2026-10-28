@@ -1,5 +1,14 @@
 export type Priority = 'high' | 'medium' | 'low';
 export type Status = 'pending' | 'completed' | 'overdue';
+export const COLOR_THEMES = [
+  'forest',
+  'ocean',
+  'violet',
+  'rose',
+  'amber',
+  'slate',
+] as const;
+export type ColorTheme = (typeof COLOR_THEMES)[number];
 export interface Category {
   id: string;
   name: string;
@@ -36,6 +45,7 @@ export interface ObligationStatus {
 export interface UserSettings {
   id: 'default';
   theme: 'light' | 'dark' | 'system';
+  colorTheme: ColorTheme;
   reminderDaysBefore: number;
   notificationsEnabled: boolean;
   currencySymbol: string;

@@ -11,6 +11,8 @@ import type {
   UserSettings,
 } from '@/models/types';
 import { validateObligation } from './obligationService';
+import { COLOR_THEMES } from '@/models/types';
+import { DEFAULT_COLOR_THEME } from '@/theme/palettes';
 
 function invalid(field: string): never {
   throw new Error(`Invalid backup: check ${field}.`);
@@ -132,6 +134,10 @@ function settings(value: unknown): UserSettings {
   return {
     id: choice(item.id, ['default'], 'settings ID'),
     theme: choice(item.theme, ['light', 'dark', 'system'], 'theme'),
+    colorTheme:
+      item.colorTheme === undefined
+        ? DEFAULT_COLOR_THEME
+        : choice(item.colorTheme, COLOR_THEMES, 'colour theme'),
     reminderDaysBefore: integer(
       item.reminderDaysBefore,
       'reminder days',
